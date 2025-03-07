@@ -39,12 +39,17 @@ const corsMiddleware = (req: ExpressRequest, res: ExpressResponse, next: NextFun
 
 app.use(corsMiddleware);
 
-app.all('/*', async (req: ExpressRequest, res: ExpressResponse) => {
-    const url = req.path.substring(1);
+app.all('/', async (req: ExpressRequest, res: ExpressResponse) => {
+    let url;
 
     // test whether the URL provided as a path is valid or not
     try {
-        new URL(url);
+        url = req.query.url;
+        if (!url) {
+            throw new Error();
+        }
+
+        url = new URL(url.toString()).toString();
     } catch (err: any) {
         console.error(err.message);
         res.writeHead(400, { "content-type": "application/json" }).end(JSON.stringify({ error: 'Invalid URL' }));
