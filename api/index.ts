@@ -1,5 +1,5 @@
 import axios from 'axios';
-import express, { Request as ExpressRequest, Response as ExpressResponse } from 'express';
+import express, { Request as ExpressRequest, Response as ExpressResponse, NextFunction } from 'express';
 import cors from 'cors';
 
 const VERBOSE = true;
@@ -26,7 +26,18 @@ const DEFAULT_RES_HEADERS = {
 
 const app = express();
 
-app.use(cors());
+const corsMiddleware = (req: ExpressRequest, res: ExpressResponse, next: NextFunction) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(204);
+    }
+
+    next();
+};
+
+app.use(corsMiddleware);
 
 app.all('/*', async (req: ExpressRequest, res: ExpressResponse) => {
     const url = req.path.substring(1);
