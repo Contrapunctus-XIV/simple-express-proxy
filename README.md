@@ -21,7 +21,7 @@ When deployment is complete, check the proxy website: if it says â€œinvalid URLâ
 everything worked! If not, check the deployment logs.
 
 Check out an example at:
-https://simple-express-proxy.vercel.app/url?=https://example.org.
+https://simple-express-proxy.vercel.app/?url=https://example.org.
 
 ### How to change the proxy region
 
