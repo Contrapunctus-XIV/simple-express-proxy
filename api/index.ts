@@ -26,18 +26,7 @@ const DEFAULT_RES_HEADERS = {
 
 const app = express();
 
-const corsMiddleware = (req: ExpressRequest, res: ExpressResponse, next: NextFunction) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    if (req.method === 'OPTIONS') {
-        return res.sendStatus(204);
-    }
-
-    next();
-};
-
-app.use(corsMiddleware);
+app.use(cors());
 
 app.all('/', async (req: ExpressRequest, res: ExpressResponse) => {
     let url;
